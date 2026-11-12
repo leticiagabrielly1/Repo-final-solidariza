@@ -1,0 +1,26 @@
+[
+  {
+    "nome": "Senac RN - Alecrim",
+    "estado": "RN",
+    "endereco": "Av. Alexandrino de Alencar, 556, Alecrim, Natal/RN",
+    "cep": "59030350",
+    "latitude": null,
+    "longitude": null
+  },
+  {
+    "nome": "Senac RN - Zona Norte",
+    "estado": "RN",
+    "endereco": "Travessa Macaé, 2875, Potengi, Natal/RN",
+    "cep": "59110185",
+    "latitude": null,
+    "longitude": null
+  },
+  {
+    "nome": "Senac RN - Centro",
+    "estado": "RN",
+    "endereco": "Rua São Tomé, 444, Cidade Alta, Natal/RN",
+    "cep": "59025030",
+    "latitude": null,
+    "longitude": null
+  }
+]

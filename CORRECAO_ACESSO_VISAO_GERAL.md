@@ -1,0 +1,1 @@
+Acesso à Visão Geral administrativa corrigido: login de administrador abre /admin diretamente, sem redirecionamento automático para trocar senha. A rota de alteração de senha continua disponível se necessária. Os gráficos, estatísticas, estoque e cadastros existentes foram preservados. Atenção: credenciais iniciais devem ser alteradas voluntariamente para segurança.

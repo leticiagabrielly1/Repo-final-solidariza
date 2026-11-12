@@ -1,0 +1,1 @@
+Correção da Visão geral: removida expressão de compreensão de listas incompatível com Jinja no template admin_painel.html. Dados dos gráficos preparados em Python e enviados como graficos_metas. Nenhuma rota, senha ou cadastro alterado. Sintaxe Python validada; execução Flask não disponível neste ambiente.

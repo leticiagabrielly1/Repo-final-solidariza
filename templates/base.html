@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ title }} · Rede Solidariza</title><meta name="description" content="Rede Solidariza: conectando quem pode doar a quem precisa de ajuda, para evitar o desperdício de comida."><link rel="icon" type="image/png" href="{{ url_for('static',filename='favicon.png') }}"><link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}"><link rel="stylesheet" href="{{ url_for('static',filename='editorial.css') }}"><link rel="stylesheet" href="{{ url_for('static',filename='rute.css') }}"><script defer src="{{ url_for('static',filename='app.js') }}"></script><script defer src="{{ url_for('static',filename='rute.js') }}"></script><link rel="stylesheet" href="{{ url_for('static',filename='melhorias.css') }}"><link rel="stylesheet" href="{{ url_for('static',filename='acessibilidade_rede.css') }}"><script defer src="{{ url_for('static',filename='acessibilidade_rede.js') }}"></script></head>
+<body class="{{ 'admin-mode' if user and user.admin else ('doador' if user and user.perfil=='Doador' else '') }} {{ 'autenticacao' if not user else '' }}">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+{% macro logo() %}<a class="logo logo-original" href="{{ url_for('home') }}" aria-label="Rede Solidariza"><img src="{{ url_for('static',filename='rede-logo.png') }}" alt="Rede Solidariza"></a>{% endmacro %}
+{% macro csrf() %}<input type="hidden" name="csrf" value="{{ session.csrf }}">{% endmacro %}
+{% if user %}
+<aside class="sidebar" id="menu">{{ logo() }}<span class="nav-label">{{ 'CENTRAL ADMINISTRATIVA' if user.admin else 'SEU ESPAÇO SOLIDÁRIO' }}</span><nav aria-label="Principal">
+{% if user.admin %}
+<a class="{{ 'active' if request.endpoint=='admin_painel' }}" href="{{ url_for('admin_painel') }}">▤ <span>Visão geral</span></a>
+<a class="{{ 'active' if request.endpoint=='admin_doacoes' }}" href="{{ url_for('admin_doacoes') }}">♡ <span>Doações e Pix</span></a>
+<a class="{{ 'active' if request.endpoint=='admin_entregas' }}" href="{{ url_for('admin_entregas') }}">✓ <span>Confirmar entregas</span></a>
+<a class="{{ 'active' if request.endpoint=='admin_estoque' }}" href="{{ url_for('admin_estoque') }}">▦ <span>Controle de estoque</span></a>
+<a class="{{ 'active' if request.endpoint=='administrar_unidades' }}" href="{{ url_for('administrar_unidades') }}">⌖ <span>Unidades Senac</span></a>
+<a class="{{ 'active' if request.endpoint=='vincular_admin' }}" href="{{ url_for('vincular_admin') }}">♙ <span>Acessos administrativos</span></a>
+<a href="{{ url_for('trocar_senha_admin') }}">⚿ <span>Alterar senha</span></a>
+{% else %}
+<a class="{{ 'active' if request.endpoint=='painel' }}" href="{{ url_for('painel') }}">⌂ <span>Início</span></a>
+{% if user.perfil=='Beneficiário' %}<a href="{{ url_for('cesta') }}">▣ <span>Minha cesta</span></a><a href="{{ url_for('movimentar',modo='pedido-roupas') }}">♧ <span>Pedir roupas</span></a>
+{% else %}<a href="{{ url_for('movimentar',modo='alimentos') }}">♡ <span>Doar alimentos</span></a><a href="{{ url_for('movimentar',modo='roupas') }}">♧ <span>Doar roupas</span></a><a href="{{ url_for('movimentar',modo='dinheiro') }}">＄ <span>Doar via Pix</span></a>{% endif %}
+<a href="{{ url_for('pontos') }}">⌖ <span>Pontos de coleta</span></a>{% if user.perfil != 'Beneficiário' %}<a href="{{ url_for('estoque') }}">▦ <span>Estoque</span></a>{% endif %}
+{% endif %}</nav>
+<div class="sidebar-message"><span>♡</span><h3>Juntos, fazemos<br>a diferença.</h3><p>Cada gesto de cuidado<br>constrói um novo amanhã.</p></div>
+<form action="{{ url_for('sair') }}" method="post">{{ csrf() }}<button class="logout" type="submit">↪ Sair da conta</button></form></aside>
+<div class="workspace"><header class="topbar"><button class="menu-button" aria-label="Abrir menu" aria-controls="menu" aria-expanded="false">☰</button><div><strong>{{ title }}</strong><small>Um pequeno gesto. Uma grande transformação.</small></div><div class="profile"><span class="avatar">{{ user.nome[0]|upper }}</span><span><strong>{{ user.nome.split()[0] }}</strong><small>{{ user.perfil }}</small></span></div></header>
+{% endif %}
+<main id="conteudo" class="{{ 'content' if user else 'auth-main' }}">
+{% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="notice {{ category }}" role="alert">{{ message }}</div>{% endfor %}{% endwith %}
+{% block content %}{% endblock %}
+</main>{% if user %}<footer>Rede Solidariza · Projeto educacional · Pontos e regras demonstrativos</footer></div>{% endif %}
+{% include '_rute.html' %}
+<aside class="rede-acess" aria-label="Ferramentas de acessibilidade">
+<button type="button" id="rede-acess-toggle" aria-expanded="false" aria-controls="rede-acess-panel">♿ Acessibilidade</button>
+<div id="rede-acess-panel" hidden>
+<strong>Acessibilidade</strong>
+<div class="rede-acess-actions">
+<button type="button" data-rede-access="mais">A+ Aumentar texto</button>
+<button type="button" data-rede-access="menos">A− Diminuir texto</button>
+<button type="button" data-rede-access="contraste">Alto contraste</button>
+<button type="button" data-rede-access="escuro">Modo escuro</button>
+<button type="button" data-rede-access="espacamento">Espaçar texto</button>
+<button type="button" data-rede-access="animacoes">Pausar animações</button>
+<button type="button" data-rede-access="reset">Restaurar padrão</button>
+<button type="button" data-rede-access="vlibras">VLibras (Libras)</button>
+</div></div></aside>
+<div vw class="enabled" id="rede-vlibras"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js" defer></script>
+</body></html>

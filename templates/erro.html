@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<section class="card result"><h1>{{ error.code }}</h1><h2>{{ title }}</h2><p>{{ error.description if error.code==400 else 'Você não tem acesso a esta página ou o registro não existe.' }}</p><a class="button yellow" href="{{ url_for('home') }}">Voltar ao início</a></section>{% endblock %}

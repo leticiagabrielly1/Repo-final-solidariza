@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-heading"><h1>Doações — {{ ponto }}</h1><p>Registros vinculados à sua unidade Senac.</p></div>
+<section class="card">
+  <div class="admin-quick-links">
+    <a class="button yellow" href="{{ url_for('admin_doacoes', tipo='todas') }}">Todas</a>
+    <a class="button yellow" href="{{ url_for('admin_doacoes', tipo='pix') }}">Pix</a>
+    <a class="button yellow" href="{{ url_for('admin_doacoes', tipo='roupas') }}">Roupas</a>
+    <a class="button yellow" href="{{ url_for('admin_doacoes', tipo='alimentos') }}">Alimentos</a>
+    <a class="button" href="{{ url_for('admin_painel') }}">Voltar ao painel</a>
+  </div>
+  <div class="table-wrap"><table><thead><tr><th>Código</th><th>Doador</th><th>Tipo</th><th>Detalhes</th><th>Data</th><th>Status</th></tr></thead>
+  <tbody>{% for r in registros %}<tr>
+    <td>{{ r.codigo }}</td><td>{{ r.nome }}</td><td>{{ r.tipo }}</td>
+    <td>{% if r.tipo == 'Registro de valor' %}{{ r.valor | brl }}{% else %}{{ r.itens }}{% endif %}</td>
+    <td>{{ r.criado }}</td>
+    <td>{% if r.tipo == 'Registro de valor' %}{{ r.pix_status or 'Sem cobrança Pix' }}{% else %}{{ r.entrega_status or 'Sem entrega cadastrada' }}{% endif %}</td>
+  </tr>{% else %}<tr><td colspan="6">Nenhuma doação encontrada nesta unidade.</td></tr>{% endfor %}</tbody></table></div>
+  <p>O status Pix indica apenas o registro da cobrança. Confirmação automática de pagamento exige integração com o provedor de pagamentos.</p>
+</section>
+{% endblock %}

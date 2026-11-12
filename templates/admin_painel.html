@@ -1,0 +1,112 @@
+{% extends 'base.html' %}{% block content %}
+<div class="page-heading"><span class="eyebrow">VISÃO GERAL DO ADMINISTRADOR</span><h1>Visão geral da unidade</h1><p>Gestão de <strong>{{ ponto }}</strong> com estatísticas, necessidades, estoque, metas e doações registradas no SQLite.</p></div>
+<section class="card"><h2>Resumo de doações e necessidades</h2><p>Informações reais registradas nesta unidade. O estoque inicial é demonstrativo e os valores Pix não são pagamentos reais.</p>
+<div class="overview-kpis">
+<article><small>ROUPAS DISPONÍVEIS</small><strong>{{ panorama.roupas }}</strong><span>Camisas, calças e sapatos</span></article>
+<article><small>ALIMENTOS DISPONÍVEIS</small><strong>{{ panorama.alimentos }}</strong><span>Unidades de alimentos</span></article>
+<article><small>PRODUTOS DE HIGIENE</small><strong>{{ panorama.higiene }}</strong><span>Unidades disponíveis</span></article>
+<article><small>ESTOQUE TOTAL</small><strong>{{ panorama.total_estoque }}</strong><span>{{ panorama.estoque_baixo }} produtos abaixo de 10 unidades</span></article>
+<article><small>FAMÍLIAS CADASTRADAS</small><strong>{{ panorama.familias }}</strong><span>{{ panorama.pessoas }} moradores cadastrados</span></article>
+<article><small>CESTAS SOLICITADAS</small><strong>{{ panorama.pedidos }}</strong><span>Indicador de necessidade registrada</span></article>
+<article><small>DOAÇÕES DE ROUPAS</small><strong>{{ panorama.doacoes_roupas }}</strong><span>Registros da unidade</span></article>
+<article><small>DOAÇÕES DE ALIMENTOS</small><strong>{{ panorama.doacoes_alimentos }}</strong><span>Registros da unidade</span></article>
+</div>
+<div class="overview-links"><a class="button outline" href="{{ url_for('admin_estoque') }}">Gerenciar estoque</a><a class="button outline" href="{{ url_for('admin_doacoes') }}">Consultar doações</a><a class="button outline" href="{{ url_for('admin_entregas') }}">Ver entregas pendentes</a></div>
+<h3>Necessidades e disponibilidade</h3><p>O gráfico compara pedidos de cesta registrados com o estoque disponível por categoria. São unidades diferentes e não representam cobertura automática de cada pedido.</p>
+<div class="rede-stats-grid">
+<article class="rede-stat-panel"><h4>Necessidade: pedidos de cesta</h4><canvas id="overview-necessidades" aria-label="Pedidos de cesta registrados e famílias cadastradas"></canvas></article>
+<article class="rede-stat-panel"><h4>Estoque por categoria</h4><canvas id="overview-estoque" aria-label="Quantidade de alimentos, roupas e higiene no estoque"></canvas></article>
+<article class="rede-stat-panel"><h4>Tipos de doação registrados</h4><canvas id="overview-tipos" aria-label="Quantidade de doações de alimentos, roupas e Pix simulado"></canvas></article>
+</div>
+<h3>Produtos e quantidades em estoque</h3><div class="table-wrap"><table><thead><tr><th>Categoria</th><th>Produto</th><th>Quantidade</th><th>Situação</th></tr></thead><tbody>{% for item in itens_estoque %}<tr><td>{{ item.categoria }}</td><td>{{ item.produto }}</td><td>{{ item.quantidade }}</td><td>{{ 'Estoque baixo' if item.quantidade < 10 else 'Disponível' }}</td></tr>{% else %}<tr><td colspan="4">Nenhum produto cadastrado nesta unidade.</td></tr>{% endfor %}</tbody></table></div>
+</section>
+<script id="overview-dados" type="application/json">{{ panorama|tojson }}</script>
+<script>(function(){const el=document.getElementById('overview-dados');if(!el)return;const d=JSON.parse(el.textContent);function draw(id,labels,vals){const c=document.getElementById(id),ctx=c.getContext('2d');const w=Math.max(290,c.parentElement.clientWidth-30),h=215,r=window.devicePixelRatio||1;c.width=w*r;c.height=h*r;c.style.width=w+'px';c.style.height=h+'px';ctx.scale(r,r);ctx.font='12px system-ui';const max=Math.max(1,...vals),slot=(w-40)/vals.length;vals.forEach((v,i)=>{const bh=140*v/max,x=20+i*slot+slot*.2;ctx.fillStyle=['#a1122c','#2563eb','#16845d'][i%3];ctx.fillRect(x,155-bh,slot*.6,bh);ctx.fillStyle='#283245';ctx.textAlign='center';ctx.fillText(String(v),x+slot*.3,Math.max(12,148-bh));ctx.fillText(labels[i],x+slot*.3,180)})}const run=()=>{draw('overview-necessidades',['Cestas','Famílias'],[d.pedidos,d.familias]);draw('overview-estoque',['Alimentos','Roupas','Higiene'],[d.alimentos,d.roupas,d.higiene]);draw('overview-tipos',['Alimentos','Roupas','Pix demo'],[d.doacoes_alimentos,d.doacoes_roupas,d.doacoes_pix])};run();window.addEventListener('resize',run)})();</script>
+<div class="admin-kpis"><article class="card"><small>ENTREGAS REGISTRADAS</small><strong>{{ resumo.total or 0 }}</strong><span>Na sua unidade</span></article><article class="card"><small>AGUARDANDO CONFIRMAÇÃO</small><strong>{{ resumo.pendentes or 0 }}</strong><span>Precisam de atenção</span></article><article class="card"><small>ENTREGAS CONFIRMADAS</small><strong>{{ resumo.entregues or 0 }}</strong><span>Recebidas no estoque</span></article></div>
+<section class="card"><h2>Indicadores financeiros — simulações</h2><p class="demo-warning">Os registros Pix deste projeto são simulações. Nenhum valor foi recebido ou destinado de verdade. Os totais abaixo são calculados a partir do SQLite desta unidade.</p><div class="finance-grid"><article class="card"><small>VALOR SIMULADO REGISTRADO</small><strong>{{ financeiro.total|brl }}</strong></article><article class="card"><small>DOAÇÕES FINANCEIRAS SIMULADAS</small><strong>{{ financeiro.quantidade }}</strong></article><article class="card"><small>VALOR REAL CONFIRMADO</small><strong>Não disponível</strong></article><article class="card"><small>VALOR REAL DESTINADO / SALDO</small><strong>Não disponível</strong></article></div><h3>Evolução mensal das simulações</h3><div class="finance-bars">{% set maximo = (mensal|map(attribute='total')|max) if mensal else 0 %}{% for mes in mensal %}<div style="flex:1"><div class="bar" style="height:{{ (20 + 100 * mes.total / maximo)|int if maximo else 20 }}px" title="{{ mes.total|brl }}"></div><div class="bar-label">{{ mes.mes }}</div></div>{% else %}<p>Sem registros financeiros.</p>{% endfor %}</div><h3>Últimas simulações</h3><div class="table-wrap"><table class="finance-table"><thead><tr><th>Data</th><th>Doador</th><th>Valor</th><th>Status</th></tr></thead><tbody>{% for r in historico %}<tr><td>{{ r.criado[:16] }}</td><td>{{ r.nome }}</td><td>{{ r.valor|brl }}</td><td>{{ r.status or 'Simulação' }}</td></tr>{% else %}<tr><td colspan="4">Nenhum registro.</td></tr>{% endfor %}</tbody></table></div></section><section class="card"><h2>Metas financeiras demonstrativas</h2><form action="{{ url_for('adicionar_meta') }}" method="post">{{ csrf() }}<label>Nome da meta<input name="titulo" maxlength="90" required placeholder="Ex.: Meta de arrecadação do mês"></label><label>Valor pretendido (R$)<input name="valor" type="number" min="0.01" step="0.01" required></label><button class="button yellow" type="submit">Cadastrar meta</button></form>{% for meta in metas %}<div class="goal-row"><strong>{{ meta.titulo }}</strong><p>{{ financeiro.total|brl }} de {{ meta.valor_centavos|brl }} (somente registros simulados)</p><progress max="100" value="{{ [100, (financeiro.total / meta.valor_centavos * 100)|int]|min }}"></progress><small>{{ (financeiro.total / meta.valor_centavos * 100)|round(1) }}% atingido</small></div>{% else %}<p>Nenhuma meta cadastrada nesta unidade.</p>{% endfor %}</section><section class="card"><h2>Metas e desempenho por unidade</h2><p>Metas financeiras utilizam registros de simulação, não pagamentos reais. Metas de desperdício dependem de medições cadastradas pelo administrador.</p>
+<div class="finance-grid"><article class="card"><small>DOAÇÕES REGISTRADAS NESTE MÊS</small><strong>{{ atual.doacoes }}</strong><small>Anterior: {{ anterior.doacoes }} | Variação: {{ comparativo.doacoes if comparativo.doacoes is not none else 'Sem base' }}{% if comparativo.doacoes is not none %}%{% endif %}</small></article><article class="card"><small>VALORES SIMULADOS NESTE MÊS</small><strong>{{ atual.valor|brl }}</strong><small>Anterior: {{ anterior.valor|brl }} | Variação: {{ comparativo.valor if comparativo.valor is not none else 'Sem base' }}{% if comparativo.valor is not none %}%{% endif %}</small></article><article class="card"><small>DESPERDÍCIO REGISTRADO NO MÊS</small><strong>{{ atual.desperdicio }} unidades</strong><small>Anterior: {{ anterior.desperdicio }} | Variação: {{ comparativo.desperdicio if comparativo.desperdicio is not none and atual.registros_perdas and anterior.registros_perdas else 'Dados insuficientes' }}{% if comparativo.desperdicio is not none and atual.registros_perdas and anterior.registros_perdas %}%{% endif %}</small></article></div>
+<h3>Nova meta</h3><form action="{{ url_for('criar_meta_gestao') }}" method="post">{{ csrf() }}<label>Descrição<input name="titulo" maxlength="90" required placeholder="Ex.: Aumentar doações em novembro"></label><label>Tipo<select name="tipo" required><option value="doacoes">Quantidade de doações</option><option value="valor">Valor de doações simuladas (R$)</option><option value="desperdicio">Redução de desperdício (%)</option></select></label><label>Mês de referência<input name="mes" type="month" required></label><label>Meta numérica (R$, quantidade ou %)<input name="alvo" type="number" min="0.01" step="0.01" required></label><button class="button yellow" type="submit">Salvar meta</button></form>
+<h3>Progresso das metas</h3>{% for item in metas_gestao %}<div class="goal-row"><strong>{{ item.meta.titulo }}</strong><p>{{ item.meta.mes }} — {% if item.meta.tipo=='desperdicio' %}Redução de desperdício{% elif item.meta.tipo=='valor' %}Valor simulado{% else %}Doações{% endif %}</p>{% if item.progresso is not none %}<progress max="100" value="{{ [100,item.progresso]|min }}"></progress><small>{{ item.progresso }}% da meta | {% if item.meta.tipo=='valor' %}{{ item.atingido|brl }} / {{ item.meta.alvo|brl }}{% elif item.meta.tipo=='desperdicio' %}{{ item.atingido }}% / {{ item.meta.alvo }}%{% else %}{{ item.atingido }} / {{ item.meta.alvo }}{% endif %}</small>{% else %}<p>Dados insuficientes: registre desperdício neste mês e no mês anterior.</p>{% endif %}</div>{% else %}<p>Nenhuma meta de gestão cadastrada.</p>{% endfor %}
+<h3>Registrar desperdício mensal</h3><p>Informe a quantidade de produtos perdidos ou descartados. Para comparar a redução, registre medições em dois meses consecutivos. Cada envio soma ao total do mês.</p><form action="{{ url_for('registrar_desperdicio') }}" method="post">{{ csrf() }}<label>Mês<input type="month" name="mes" required></label><label>Unidades desperdiçadas<input type="number" name="quantidade" min="0" step="1" required></label><button class="button yellow" type="submit">Registrar medição</button></form>
+<section class="rede-statistics" aria-labelledby="estatisticas-titulo">
+<h3 id="estatisticas-titulo">Estatísticas das metas — Passo 5</h3>
+<p>Gráficos calculados com dados desta unidade. “Sem dados” não significa resultado zero. Valores Pix são apenas simulações.</p>
+<div class="rede-stats-grid">
+  <article class="rede-stat-panel"><h4>1. Evolução das doações por mês</h4><canvas id="estat-doacoes" role="img" aria-label="Gráfico de quantidade de doações mensais"></canvas><p class="rede-chart-note">Quantidade registrada nos últimos 12 meses.</p></article>
+  <article class="rede-stat-panel"><h4>2. Crescimento das doações (%)</h4><canvas id="estat-crescimento" role="img" aria-label="Gráfico de crescimento percentual mensal das doações"></canvas><p class="rede-chart-note">Variação em relação ao mês anterior. Sem base quando o mês anterior tem zero doações.</p></article>
+  <article class="rede-stat-panel"><h4>3. Redução de desperdício (%)</h4><canvas id="estat-reducao" role="img" aria-label="Gráfico de redução percentual mensal de desperdício"></canvas><p class="rede-chart-note">Valores positivos indicam redução; exige medições em dois meses consecutivos.</p></article>
+  <article class="rede-stat-panel"><h4>4. Comparação de períodos</h4><canvas id="estat-comparacao" role="img" aria-label="Gráfico comparativo de doações do mês atual e anterior"></canvas><p class="rede-chart-note">Quantidade de doações do mês anterior versus mês atual.</p></article>
+  <article class="rede-stat-panel"><h4>5. Metas atingidas (%)</h4><canvas id="estat-metas" role="img" aria-label="Gráfico de percentual de realização das metas cadastradas"></canvas><p class="rede-chart-note">Cada barra corresponde a uma meta cadastrada, limitada visualmente a 100%.</p></article>
+  <article class="rede-stat-panel"><h4>6. Evolução de valores simulados</h4><canvas id="estat-valores" role="img" aria-label="Gráfico mensal dos valores Pix simulados em reais"></canvas><p class="rede-chart-note">Somente simulações, sem confirmação de recebimento real.</p></article>
+</div>
+</section>
+<script id="rede-estatisticas-dados" type="application/json">{{ {'periodos':periodos,'metas':graficos_metas}|tojson }}</script>
+<script>
+(function(){
+ const el=document.getElementById('rede-estatisticas-dados');
+ if(!el)return;
+ const dados=JSON.parse(el.textContent), p=dados.periodos, meses=p.map(x=>x.mes.slice(5)+'/'+x.mes.slice(2,4));
+ const dark='#293241', red='#c62828', pale='#f1f3f6';
+ function grafico(id,labels,values,opts={}){
+  const canvas=document.getElementById(id);if(!canvas)return;
+  const ctx=canvas.getContext('2d');if(!ctx)return;
+  const width=Math.max(320,canvas.parentElement.clientWidth-30),height=240,dpr=window.devicePixelRatio||1;
+  canvas.width=width*dpr;canvas.height=height*dpr;canvas.style.width=width+'px';canvas.style.height=height+'px';ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,width,height);ctx.font='12px system-ui, sans-serif';
+  const usable=values.filter(v=>v!==null&&Number.isFinite(v));
+  if(!usable.length || (opts.emptyIfZero && usable.every(v=>v===0))){
+    ctx.fillStyle=dark;ctx.textAlign='center';ctx.fillText('Sem dados registrados para este gráfico',width/2,height/2);return;
+  }
+  const left=46,right=12,top=24,bottom=45,plotW=width-left-right,plotH=height-top-bottom;
+  const lo=Math.min(0,...usable),hi=Math.max(1,...usable),span=hi-lo||1;
+  const y=v=>top+(hi-v)*plotH/span;
+  ctx.strokeStyle='#d9dee6';ctx.fillStyle='#626b77';ctx.lineWidth=1;ctx.textAlign='right';
+  for(let i=0;i<=4;i++){const v=lo+span*i/4, yy=y(v);ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(width-right,yy);ctx.stroke();ctx.fillText((Math.abs(v)>=1000?v.toFixed(0):v.toFixed(1)).replace(/\.0$/,''),left-7,yy+4)}
+  const slot=plotW/Math.max(1,labels.length),barW=Math.min(36,slot*.64);
+  values.forEach((v,i)=>{
+    const x=left+slot*(i+.5);ctx.fillStyle='#6b7280';ctx.textAlign='center';
+    if(labels.length<=7||i%2===0)ctx.fillText(String(labels[i]).slice(0,11),x,height-23);
+    if(v===null||!Number.isFinite(v)){ctx.fillText('—',x,top+plotH/2);return}
+    const yy=y(v),zero=y(0);ctx.fillStyle=opts.color||red;
+    ctx.fillRect(x-barW/2,Math.min(yy,zero),barW,Math.max(2,Math.abs(zero-yy)));
+    ctx.fillStyle=dark;ctx.font='11px system-ui, sans-serif';
+    if(labels.length<=6)ctx.fillText((Math.round(v*10)/10)+(opts.suffix||''),x,Math.max(12,yy-7));
+  });
+ }
+ const render=()=>{
+ grafico('estat-doacoes',meses,p.map(x=>x.doacoes),{color:'#2563eb',emptyIfZero:true});
+ grafico('estat-crescimento',meses,p.map(x=>x.crescimento),{color:'#14845b',suffix:'%'});
+ grafico('estat-reducao',meses,p.map(x=>x.reducao),{color:'#e08b19',suffix:'%'});
+ grafico('estat-comparacao',['Anterior','Atual'],[p[p.length-2].doacoes,p[p.length-1].doacoes],{color:'#2563eb',emptyIfZero:true});
+ grafico('estat-metas',dados.metas.slice(0,6).map(x=>x.nome),dados.metas.slice(0,6).map(x=>x.progresso===null?null:Math.min(100,x.progresso)),{color:'#14845b',suffix:'%'});
+ grafico('estat-valores',meses,p.map(x=>x.valor/100),{color:'#c62828',emptyIfZero:true});
+ };
+ render();window.addEventListener('resize',render);
+})();
+</script>
+<h3>Gráficos de desempenho — últimos 12 meses</h3>
+<p>Os gráficos usam os registros da unidade no SQLite. Meses sem registros aparecem com zero. Valores financeiros são simulações.</p>
+<div class="rede-charts">
+ <div class="rede-chart-card"><h4>Doações registradas por mês</h4>
+  {% set pico = (periodos|map(attribute='doacoes')|max) if periodos else 0 %}
+  <div class="rede-chart-bars">{% for item in periodos %}<div class="rede-chart-col" title="{{ item.mes }}: {{ item.doacoes }} doações"><span class="rede-chart-value">{{ item.doacoes }}</span><div class="rede-chart-bar rede-blue" style="height:{{ (item.doacoes / pico * 140)|round|int if pico else 0 }}px"></div><small>{{ item.mes[5:] }}</small></div>{% endfor %}</div>
+  <small>Meses em ordem cronológica; altura proporcional ao maior resultado.</small>
+ </div>
+ <div class="rede-chart-card"><h4>Valores simulados por mês (R$)</h4>
+  {% set pico = (periodos|map(attribute='valor')|max) if periodos else 0 %}
+  <div class="rede-chart-bars">{% for item in periodos %}<div class="rede-chart-col" title="{{ item.mes }}: {{ item.valor|brl }}"><span class="rede-chart-value">{{ (item.valor / 100)|round|int }}</span><div class="rede-chart-bar rede-red" style="height:{{ (item.valor / pico * 140)|round|int if pico else 0 }}px"></div><small>{{ item.mes[5:] }}</small></div>{% endfor %}</div>
+  <small>Rótulos em reais; não representam pagamentos confirmados.</small>
+ </div>
+ <div class="rede-chart-card"><h4>Desperdício registrado (unidades)</h4>
+  {% set pico = (periodos|map(attribute='desperdicio')|max) if periodos else 0 %}
+  <div class="rede-chart-bars">{% for item in periodos %}<div class="rede-chart-col" title="{{ item.mes }}: {{ item.desperdicio if item.registros_perdas else 'Sem medição' }}"><span class="rede-chart-value">{{ item.desperdicio if item.registros_perdas else '—' }}</span><div class="rede-chart-bar rede-orange" style="height:{{ (item.desperdicio / pico * 140)|round|int if pico else 0 }}px"></div><small>{{ item.mes[5:] }}</small></div>{% endfor %}</div>
+  <small>— significa ausência de medição, não desperdício zero.</small>
+ </div>
+</div>
+<h3>Comparação dos últimos 12 meses</h3><div class="table-wrap"><table class="finance-table"><thead><tr><th>Mês</th><th>Doações registradas</th><th>Valor simulado</th><th>Desperdício</th></tr></thead><tbody>{% for periodo in periodos %}<tr><td>{{ periodo.mes }}</td><td>{{ periodo.doacoes }}</td><td>{{ periodo.valor|brl }}</td><td>{{ periodo.desperdicio if periodo.registros_perdas else 'Sem medição' }}</td></tr>{% endfor %}</tbody></table></div></section><h2 class="admin-section-title">Gerenciar operações</h2><div class="admin-actions">
+<a class="admin-action" href="{{ url_for('admin_doacoes') }}"><span>♡</span><strong>Doações recebidas</strong><small>Pix, roupas e alimentos; consulte os registros</small><b>Consultar →</b></a>
+<a class="admin-action" href="{{ url_for('admin_entregas') }}"><span>✓</span><strong>Confirmar doações</strong><small>Valide entregas antes de atualizar o estoque</small><b>Gerenciar →</b></a>
+<a class="admin-action" href="{{ url_for('admin_estoque') }}"><span>▦</span><strong>Controle de estoque</strong><small>Confira quantidades e registre ajustes</small><b>Abrir estoque →</b></a>
+<a class="admin-action" href="{{ url_for('administrar_unidades') }}"><span>⌖</span><strong>Unidades Senac</strong><small>Veja estados e cadastre endereços verificados</small><b>Ver unidades →</b></a></div>
+<section class="card"><h2>Entregas recentes</h2><div class="table-wrap"><table><thead><tr><th>Código</th><th>Doador</th><th>Tipo</th><th>Prazo</th><th>Situação</th></tr></thead><tbody>{% for r in recentes %}<tr><td>{{ r.codigo }}</td><td>{{ r.nome }}</td><td>{{ r.tipo }}</td><td>{{ r.prazo[:16] }}</td><td><span class="admin-status">{{ r.status }}</span></td></tr>{% else %}<tr><td colspan="5">Nenhuma entrega registrada para esta unidade.</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}
