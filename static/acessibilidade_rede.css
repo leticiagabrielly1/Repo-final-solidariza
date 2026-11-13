@@ -558,42 +558,111 @@ body.rede-modo-escuro:not(.rede-alto-contraste)
     outline-offset: 3px;
 }
 
-/* CORRIGIR POSIÇÃO DA ACESSIBILIDADE */
+/* =========================================
+   PAINEL DE ACESSIBILIDADE - AJUSTES FINAIS
+   ========================================= */
 
 html body .rede-acess {
     position: fixed !important;
     left: 0 !important;
     top: 50% !important;
-    bottom: auto !important;
     right: auto !important;
+    bottom: auto !important;
     transform: translateY(-50%) !important;
     z-index: 999999 !important;
-    display: block !important;
+    font-family: Arial, sans-serif !important;
+    line-height: normal;
 }
 
-/* Manter botão vertical vermelho */
-
-html body #rede-acess-toggle {
+html body .rede-acess #rede-acess-toggle {
     display: block !important;
-    background: #8d1027 !important;
-    color: #ffffff !important;
-    writing-mode: vertical-rl !important;
+    width: 38px !important;
+    min-height: 116px !important;
+    padding: 10px 7px !important;
+    border: 1px solid #8d1027 !important;
     border-radius: 0 10px 10px 0 !important;
+    background: #8d1027 !important;
+    color: #fff !important;
+    font: 700 12px Arial, sans-serif !important;
+    writing-mode: vertical-rl !important;
     cursor: pointer !important;
     pointer-events: auto !important;
 }
 
-/* Manter painel ao lado do botão */
-
-html body #rede-acess-panel {
+html body .rede-acess #rede-acess-panel {
     position: absolute !important;
-    top: 50% !important;
     left: 42px !important;
+    top: 50% !important;
+    right: auto !important;
     bottom: auto !important;
     transform: translateY(-50%) !important;
+    box-sizing: border-box !important;
+    width: min(310px, calc(100vw - 55px)) !important;
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+    padding: 14px !important;
+    border: 1px solid #bbb !important;
+    border-radius: 12px !important;
+    background: #fff !important;
+    color: #222 !important;
+    box-shadow: 0 6px 25px #0003 !important;
     z-index: 1000000 !important;
 }
 
-html body #rede-acess-panel[hidden] {
+html body .rede-acess #rede-acess-panel[hidden] {
     display: none !important;
+}
+
+html body .rede-acess .rede-acess-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin-top: 12px !important;
+}
+
+html body .rede-acess #rede-acess-panel button {
+    display: block;
+    box-sizing: border-box !important;
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 8px !important;
+    border: 1px solid #a5a5a5 !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+    color: #222 !important;
+    font: 14px/1.35 Arial, sans-serif !important;
+    text-align: center;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+/* O tema escuro também adapta o painel sem perder contraste. */
+html body.rede-modo-escuro:not(.rede-alto-contraste)
+.rede-acess #rede-acess-panel {
+    background: #202938 !important;
+    color: #f1f5f9 !important;
+    border-color: #46566e !important;
+}
+
+html body.rede-modo-escuro:not(.rede-alto-contraste)
+.rede-acess #rede-acess-panel button {
+    background: #303d50 !important;
+    color: #fff !important;
+    border-color: #52617a !important;
+}
+
+/* Alto contraste permanece legível também no painel. */
+html body.rede-alto-contraste .rede-acess #rede-acess-panel,
+html body.rede-alto-contraste .rede-acess #rede-acess-panel button {
+    background: #000 !important;
+    color: #fff !important;
+    border-color: #ff0 !important;
+}
+
+/* Não permitir que a opção de espaçamento desconfigure o painel. */
+body.rede-espacamento .rede-acess,
+body.rede-espacamento .rede-acess * {
+    letter-spacing: normal !important;
+    word-spacing: normal !important;
+    line-height: normal !important;
 }
