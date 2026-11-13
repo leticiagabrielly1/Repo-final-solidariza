@@ -1,48 +1,173 @@
 
-/* MODO ESCURO - REDE SOLIDARIZA */
+/* ACESSIBILIDADE - REDE SOLIDARIZA */
+
+.rede-acess {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 99999;
+    font-family: Arial, sans-serif;
+}
+
+.rede-acess button {
+    cursor: pointer;
+    border: 1px solid #a5a5a5;
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #fff;
+    color: #222;
+    font-size: 14px;
+}
+
+#rede-acess-toggle {
+    background: #8d1027;
+    color: white;
+    border-color: #8d1027;
+    font-weight: 700;
+    max-width: 38px;
+    min-height: 116px;
+    padding: 10px 7px;
+    writing-mode: vertical-rl;
+    border-radius: 0 10px 10px 0;
+    font-size: 12px;
+    box-shadow: 0 3px 14px #0003;
+}
+
+#rede-acess-panel {
+    position: absolute;
+    top: 50%;
+    left: 42px;
+    transform: translateY(-50%);
+    width: min(310px, calc(100vw - 55px));
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 14px;
+    background: #fff;
+    color: #222;
+    border: 1px solid #bbb;
+    border-radius: 12px;
+    box-shadow: 0 6px 25px #0003;
+}
+
+#rede-acess-panel[hidden] {
+    display: none !important;
+}
+
+.rede-acess-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.rede-acess button:focus-visible {
+    outline: 3px solid #f3ac22;
+    outline-offset: 2px;
+}
+
+/* AUMENTAR FONTES EM TODO O SITE */
+
+html.rede-zoom body {
+    --rede-text-scale: var(--rede-scale, 1);
+}
+
+/* Escala os tamanhos originais calculados,
+   inclusive fontes definidas em px ou rem. */
+html.rede-zoom body :where(
+    h1,h2,h3,h4,h5,h6,
+    p,span,a,li,label,
+    button,input,select,textarea,
+    td,th,small,strong,b,
+    blockquote,figcaption,legend
+) {
+    font-size: calc(
+        var(--rede-original-font, 1rem)
+        * var(--rede-text-scale)
+    ) !important;
+}
+
+/* ALTO CONTRASTE REAL */
+
+body.rede-alto-contraste {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+body.rede-alto-contraste :where(
+    main,section,article,header,footer,nav,
+    aside,div,form,table,thead,tbody,tr,
+    td,th,ul,ol,li
+) {
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+body.rede-alto-contraste :where(
+    h1,h2,h3,h4,h5,h6,p,span,label,
+    strong,small,b
+) {
+    color: #fff !important;
+}
+
+body.rede-alto-contraste a {
+    color: #ffff00 !important;
+    text-decoration: underline !important;
+}
+
+body.rede-alto-contraste button,
+body.rede-alto-contraste input,
+body.rede-alto-contraste select,
+body.rede-alto-contraste textarea {
+    background: #000 !important;
+    color: #fff !important;
+    border: 2px solid #ffff00 !important;
+}
+
+body.rede-alto-contraste input::placeholder,
+body.rede-alto-contraste textarea::placeholder {
+    color: #ddd !important;
+}
+
+body.rede-alto-contraste :focus-visible {
+    outline: 3px solid #ffff00 !important;
+    outline-offset: 3px;
+}
+
+/* MODO ESCURO */
 
 body.rede-modo-escuro:not(.rede-alto-contraste) {
-    background-color: #171b23 !important;
-    color: #f1f1f1;
-    color-scheme: dark;
-    filter: none !important;
+    filter: invert(1) hue-rotate(180deg);
 }
 
-/* Não alterar imagens ou logotipos */
 body.rede-modo-escuro:not(.rede-alto-contraste) img,
 body.rede-modo-escuro:not(.rede-alto-contraste) video {
-    filter: none !important;
+    filter: invert(1) hue-rotate(180deg);
 }
 
-/* Campos de formulário */
-body.rede-modo-escuro:not(.rede-alto-contraste)
-input:not(.rede-acess input),
-body.rede-modo-escuro:not(.rede-alto-contraste)
-textarea:not(.rede-acess textarea),
-body.rede-modo-escuro:not(.rede-alto-contraste)
-select:not(.rede-acess select) {
-    background-color: #252b36 !important;
-    color: #ffffff !important;
-    border-color: #465064 !important;
+/* ESPAÇAMENTO */
+
+body.rede-espacamento,
+body.rede-espacamento * {
+    letter-spacing: .08em !important;
+    word-spacing: .15em !important;
+    line-height: 1.7 !important;
 }
 
-/* Painel de acessibilidade */
-body.rede-modo-escuro #rede-acess-panel {
-    background: #252b36 !important;
-    color: #ffffff !important;
-    border-color: #465064 !important;
+/* PAUSAR ANIMAÇÕES */
+
+body.rede-pausar *,
+body.rede-pausar *::before,
+body.rede-pausar *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
 }
 
-/* Botões do painel */
-body.rede-modo-escuro #rede-acess-panel button {
-    background: #343c49 !important;
-    color: #ffffff !important;
-    border: 1px solid #566174 !important;
+@media (max-width: 480px) {
+    .rede-acess {
+        left: 0;
+    }
 }
 
-/* Botão lateral */
-body.rede-modo-escuro #rede-acess-toggle {
-    background: #8d1027 !important;
-    color: #ffffff !important;
-    border-color: #8d1027 !important;
-}
