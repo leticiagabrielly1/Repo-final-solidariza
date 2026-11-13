@@ -436,3 +436,43 @@ body.rede-modo-escuro:not(.rede-alto-contraste)
     outline: 3px solid #ffcb19 !important;
     outline-offset: 3px;
 }
+
+/* CORRIGIR POSIÇÃO DA ACESSIBILIDADE */
+
+html body .rede-acess {
+    position: fixed !important;
+    left: 0 !important;
+    top: 50% !important;
+    bottom: auto !important;
+    right: auto !important;
+    transform: translateY(-50%) !important;
+    z-index: 999999 !important;
+    display: block !important;
+}
+
+/* Manter botão vertical vermelho */
+
+html body #rede-acess-toggle {
+    display: block !important;
+    background: #8d1027 !important;
+    color: #ffffff !important;
+    writing-mode: vertical-rl !important;
+    border-radius: 0 10px 10px 0 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+/* Manter painel ao lado do botão */
+
+html body #rede-acess-panel {
+    position: absolute !important;
+    top: 50% !important;
+    left: 42px !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+    z-index: 1000000 !important;
+}
+
+html body #rede-acess-panel[hidden] {
+    display: none !important;
+}
