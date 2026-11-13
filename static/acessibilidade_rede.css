@@ -1,218 +1,274 @@
 
-/* ACESSIBILIDADE - REDE SOLIDARIZA */
-
-.rede-acess {
-    position: fixed;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 99999;
-    font-family: Arial, sans-serif;
-}
-
-.rede-acess button {
-    cursor: pointer;
-    border: 1px solid #a5a5a5;
-    border-radius: 8px;
-    padding: 10px 12px;
-    background: #fff;
-    color: #222;
-    font-size: 14px;
-}
-
-#rede-acess-toggle {
-    background: #8d1027;
-    color: white;
-    border-color: #8d1027;
-    font-weight: 700;
-    max-width: 38px;
-    min-height: 116px;
-    padding: 10px 7px;
-    writing-mode: vertical-rl;
-    border-radius: 0 10px 10px 0;
-    font-size: 12px;
-    box-shadow: 0 3px 14px #0003;
-}
-
-#rede-acess-panel {
-    position: absolute;
-    top: 50%;
-    left: 42px;
-    transform: translateY(-50%);
-    width: min(310px, calc(100vw - 55px));
-    max-height: 85vh;
-    overflow-y: auto;
-    padding: 14px;
-    background: #fff;
-    color: #222;
-    border: 1px solid #bbb;
-    border-radius: 12px;
-    box-shadow: 0 6px 25px #0003;
-}
-
-#rede-acess-panel[hidden] {
-    display: none !important;
-}
-
-.rede-acess-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 12px;
-}
-
-.rede-acess button:focus-visible {
-    outline: 3px solid #f3ac22;
-    outline-offset: 2px;
-}
-
-/* AUMENTAR FONTES EM TODO O SITE */
-
-html.rede-zoom body {
-    --rede-text-scale: var(--rede-scale, 1);
-}
-
-html.rede-zoom body :where(
-    h1,h2,h3,h4,h5,h6,
-    p,span,a,li,label,
-    button,input,select,textarea,
-    td,th,small,strong,b,
-    blockquote,figcaption,legend
-) {
-    font-size: calc(
-        var(--rede-original-font, 1rem)
-        * var(--rede-text-scale)
-    ) !important;
-}
-
-/* ALTO CONTRASTE REAL */
-
-body.rede-alto-contraste {
-    background: #000 !important;
-    color: #fff !important;
-}
-
-body.rede-alto-contraste :where(
-    main,section,article,header,footer,nav,
-    aside,div,form,table,thead,tbody,tr,
-    td,th,ul,ol,li
-) {
-    background-color: #000 !important;
-    color: #fff !important;
-    border-color: #fff !important;
-}
-
-body.rede-alto-contraste :where(
-    h1,h2,h3,h4,h5,h6,p,span,label,
-    strong,small,b
-) {
-    color: #fff !important;
-}
-
-body.rede-alto-contraste a {
-    color: #ffff00 !important;
-    text-decoration: underline !important;
-}
-
-body.rede-alto-contraste button,
-body.rede-alto-contraste input,
-body.rede-alto-contraste select,
-body.rede-alto-contraste textarea {
-    background: #000 !important;
-    color: #fff !important;
-    border: 2px solid #ffff00 !important;
-}
-
-body.rede-alto-contraste input::placeholder,
-body.rede-alto-contraste textarea::placeholder {
-    color: #ddd !important;
-}
-
-body.rede-alto-contraste :focus-visible {
-    outline: 3px solid #ffff00 !important;
-    outline-offset: 3px;
-}
-
 /* =========================================
-   MODO ESCURO CORRIGIDO
+   REDE SOLIDARIZA
+   CORREÇÃO COMPLETA DO MODO ESCURO
    ========================================= */
 
 body.rede-modo-escuro:not(.rede-alto-contraste) {
-    background: #171b23 !important;
-    color: #f1f5f9 !important;
+    --rede-dark-bg: #171b23;
+    --rede-dark-card: #242d3b;
+    --rede-dark-field: #303d50;
+    --rede-dark-border: #46566e;
+    --rede-dark-text: #f1f5f9;
+    --rede-dark-muted: #c5cedb;
+
+    background: var(--rede-dark-bg) !important;
+    color: var(--rede-dark-text) !important;
     color-scheme: dark;
     filter: none !important;
 }
 
-/* Preservar imagens, vídeos e logotipos */
+/* ÁREA PRINCIPAL */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(img, video, svg, canvas) {
-    filter: none !important;
+:is(.workspace, .content, .auth-main) {
+    color: var(--rede-dark-text) !important;
 }
 
-/* QUADRANTE DE LOGIN E CADASTRO */
+/* BARRA SUPERIOR */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.topbar {
+    background: #202938 !important;
+    color: #ffffff !important;
+    border-color: var(--rede-dark-border) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.topbar :is(h1, h2, h3, strong, span) {
+    color: #ffffff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.topbar :is(p, small) {
+    color: var(--rede-dark-muted) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.avatar {
+    background: #303d50 !important;
+    color: #ffffff !important;
+}
+
+/* CARTÕES E PAINÉIS */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:is(
+    .card,
+    .stats article,
+    .type-card,
+    .product,
+    .mini-products article,
+    .actions-grid > a,
+    .auth-shell,
+    .auth-form
+) {
+    background: var(--rede-dark-card) !important;
+    color: var(--rede-dark-text) !important;
+    border-color: var(--rede-dark-border) !important;
+}
+
+/* TÍTULOS E TEXTOS */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.workspace :is(h1, h2, h3, h4, h5, h6, strong),
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.auth-form :is(h1, h2, h3, h4, strong) {
+    color: var(--rede-dark-text) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.workspace :is(p, small, label, .muted),
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.auth-form :is(p, small, label) {
+    color: var(--rede-dark-muted) !important;
+}
+
+/* TÍTULOS DOS PRODUTOS */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.product :is(h3, strong) {
+    color: #ffffff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.product small {
+    color: var(--rede-dark-muted) !important;
+}
+
+/* RESUMO DO PEDIDO */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.basket-summary {
+    background: var(--rede-dark-card) !important;
+    color: #ffffff !important;
+    border-color: var(--rede-dark-border) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.basket-summary :is(h2, h3, strong) {
+    color: #ffffff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.basket-summary :is(p, span, small, li) {
+    color: var(--rede-dark-muted) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.basket-summary li {
+    border-color: var(--rede-dark-border) !important;
+}
+
+/* CAMPOS DE FORMULÁRIO */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:where(input, select, textarea):not(
+    [type="checkbox"],
+    [type="radio"],
+    [type="range"]
+) {
+    background: var(--rede-dark-field) !important;
+    color: #ffffff !important;
+    border-color: #52617a !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:is(input, textarea)::placeholder {
+    color: var(--rede-dark-muted) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+select option {
+    background: var(--rede-dark-field);
+    color: #ffffff;
+}
+
+/* ÁREA DE QUANTIDADE */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.quantity {
+    color: var(--rede-dark-muted) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.quantity input {
+    background: var(--rede-dark-field) !important;
+    color: #ffffff !important;
+}
+
+/* INDICADORES DO PAINEL */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.stats article {
+    background: var(--rede-dark-card) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.stats article strong {
+    color: #ffffff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.stats article :is(small, p) {
+    color: var(--rede-dark-muted) !important;
+}
+
+/* TABELAS */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+table {
+    color: #ffffff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+th {
+    background: #303d50 !important;
+    color: #ffffff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+td {
+    background: var(--rede-dark-card) !important;
+    color: var(--rede-dark-text) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:is(th, td) {
+    border-color: var(--rede-dark-border) !important;
+}
+
+/* CARTÕES DE SELEÇÃO */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.type-card.selected {
+    background: #263c59 !important;
+    border-color: #80b5ff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.type-card small {
+    color: var(--rede-dark-muted) !important;
+}
+
+/* AVISOS E NOTIFICAÇÕES */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.notice.info {
+    background: #223c5c !important;
+    color: #d7eaff !important;
+    border-color: #4775a7 !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.notice.success {
+    background: #183f30 !important;
+    color: #b9f5d0 !important;
+    border-color: #32885a !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.notice.error {
+    background: #4b2630 !important;
+    color: #ffd2d9 !important;
+    border-color: #a85668 !important;
+}
+
+/* CARTÕES DE CONFIRMAÇÃO */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:is(.confirmation, .kindness, .secure) {
+    background: #29374b !important;
+    color: #ffffff !important;
+    border-color: var(--rede-dark-border) !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:is(.confirmation, .kindness, .secure)
+:is(p, span, strong, small, h3) {
+    color: var(--rede-dark-text) !important;
+}
+
+/* LOGIN E CADASTRO */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 .auth-shell {
-    background: #202938 !important;
-    border-color: #46566e !important;
+    background: var(--rede-dark-card) !important;
 }
-
-/* Parte do formulário */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 .auth-form {
-    background: #202938 !important;
-    color: #f1f5f9 !important;
+    background: var(--rede-dark-card) !important;
 }
-
-/* Textos do formulário */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-.auth-form :is(
-    h1, h2, h3, h4, p, label, strong, small, span
-) {
-    color: #f1f5f9 !important;
-}
-
-/* Campos de login e cadastro */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-.auth-form :is(input, select, textarea) {
-    background: #283345 !important;
-    color: #ffffff !important;
-    border-color: #52617a !important;
-}
-
-/* Campos em outras páginas */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(input, textarea, select):not(.rede-acess *) {
-    background: #283345 !important;
-    color: #ffffff !important;
-    border-color: #52617a !important;
-}
-
-/* Placeholder */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-input::placeholder,
-body.rede-modo-escuro:not(.rede-alto-contraste)
-textarea::placeholder {
-    color: #c5cedb !important;
-}
-
-/* Abas de login e cadastro */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 .tabs {
-    border-color: #46566e !important;
+    border-color: var(--rede-dark-border) !important;
 }
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 .tabs a {
-    color: #c5cedb !important;
+    color: var(--rede-dark-muted) !important;
 }
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
@@ -221,56 +277,93 @@ body.rede-modo-escuro:not(.rede-alto-contraste)
     border-bottom-color: #ffcf17 !important;
 }
 
-/* Divisórias */
-
 body.rede-modo-escuro:not(.rede-alto-contraste)
 .form-heading {
-    border-color: #46566e !important;
+    border-color: var(--rede-dark-border) !important;
 }
 
-/* Informações de segurança */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-.secure {
-    background: #29374b !important;
-    color: #f1f5f9 !important;
-    border-color: #46566e !important;
-}
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-.secure small {
-    color: #c5cedb !important;
-}
-
-/* Visualizar senha */
+/* VISUALIZAR SENHA */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 .password button {
-    color: #f1f5f9 !important;
+    color: #ffffff !important;
 }
 
-/* Preservar botão amarelo */
+/* PRESERVAR BOTÕES AMARELOS */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
-.auth-form .button.yellow {
+.button.yellow {
     background: #ffcf17 !important;
     color: #252e35 !important;
     border-color: #f1bf08 !important;
 }
 
-/* Preservar o lado azul */
+/* BOTÕES SECUNDÁRIOS */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
-.brand-panel {
+.button.outline {
+    background: #303d50 !important;
+    color: #ffffff !important;
+    border-color: var(--rede-dark-border) !important;
+}
+
+/* LINKS */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.workspace a:not(.button):not(.logo):not(.logout) {
+    color: #80b5ff;
+}
+
+/* PRESERVAR A BARRA LATERAL */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.sidebar {
+    background: var(--brand) !important;
     color: #ffffff !important;
 }
 
-/* Preservar cartões do lado azul */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.sidebar :is(h1, h2, h3, strong) {
+    color: #ffffff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.sidebar p {
+    color: #d2e3ff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.sidebar nav a {
+    color: #e5efff !important;
+}
+
+/* PRESERVAR O LADO AZUL DO LOGIN */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.brand-panel {
+    background: var(--brand) !important;
+    color: #ffffff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.brand-panel :is(h1, h2, h3, strong) {
+    color: #ffffff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.brand-panel p {
+    color: #d5e4ff !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.brand-panel h1 em {
+    color: #ffcf17 !important;
+}
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 .brand-panel .values {
     background: #ffffff !important;
-    color: #203046 !important;
+    color: var(--brand) !important;
 }
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
@@ -278,16 +371,42 @@ body.rede-modo-escuro:not(.rede-alto-contraste)
     color: #203046 !important;
 }
 
-/* PAINEL DE ACESSIBILIDADE NO MODO ESCURO */
+/* ETIQUETAS DE STATUS */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.pill {
+    background: #214c39 !important;
+    color: #b8f4d0 !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.pill.low {
+    background: #554020 !important;
+    color: #ffe1a2 !important;
+}
+
+/* RODAPÉ */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+footer {
+    color: var(--rede-dark-muted) !important;
+}
+
+/* PRESERVAR IMAGENS E LOGOTIPOS */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:is(img, video, svg, canvas) {
+    filter: none !important;
+}
+
+/* PAINEL DE ACESSIBILIDADE */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 #rede-acess-panel {
     background: #202938 !important;
-    color: #f1f5f9 !important;
-    border-color: #46566e !important;
+    color: #ffffff !important;
+    border-color: var(--rede-dark-border) !important;
 }
-
-/* Botões de acessibilidade */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 #rede-acess-panel button {
@@ -301,7 +420,7 @@ body.rede-modo-escuro:not(.rede-alto-contraste)
     background: #40516a !important;
 }
 
-/* Botão lateral vermelho */
+/* BOTÃO LATERAL ORIGINAL */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 #rede-acess-toggle {
@@ -310,37 +429,10 @@ body.rede-modo-escuro:not(.rede-alto-contraste)
     border-color: #8d1027 !important;
 }
 
-/* Foco visível */
+/* FOCO VISÍVEL */
 
 body.rede-modo-escuro:not(.rede-alto-contraste)
 :focus-visible {
     outline: 3px solid #ffcb19 !important;
     outline-offset: 3px;
-}
-
-/* ESPAÇAMENTO */
-
-body.rede-espacamento,
-body.rede-espacamento * {
-    letter-spacing: .08em !important;
-    word-spacing: .15em !important;
-    line-height: 1.7 !important;
-}
-
-/* PAUSAR ANIMAÇÕES */
-
-body.rede-pausar *,
-body.rede-pausar *::before,
-body.rede-pausar *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-}
-
-/* RESPONSIVIDADE */
-
-@media (max-width: 480px) {
-    .rede-acess {
-        left: 0;
-    }
 }
