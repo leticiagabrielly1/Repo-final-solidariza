@@ -666,3 +666,27 @@ body.rede-espacamento .rede-acess * {
     word-spacing: normal !important;
     line-height: normal !important;
 }
+
+/* =========================================
+   CORREÇÃO DO TAMANHO DAS LETRAS
+   REDE SOLIDARIZA
+   ========================================= */
+
+/* Aumento e diminuição das fontes */
+
+html.rede-zoom body {
+    --rede-text-scale: var(--rede-scale, 1);
+}
+
+html.rede-zoom body :where(
+    h1, h2, h3, h4, h5, h6,
+    p, span, a, li, label,
+    button, input, select, textarea,
+    td, th, small, strong, b,
+    blockquote, figcaption, legend
+) {
+    font-size: calc(
+        var(--rede-original-font, 1rem)
+        * var(--rede-text-scale)
+    ) !important;
+}
