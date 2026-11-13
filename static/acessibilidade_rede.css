@@ -1,5 +1,7 @@
 
-/* MODO ESCURO - REDE SOLIDARIZA */
+/* =========================================
+   MODO ESCURO - REDE SOLIDARIZA
+   ========================================= */
 
 body.rede-modo-escuro:not(.rede-alto-contraste) {
     background: #171b23 !important;
@@ -8,39 +10,59 @@ body.rede-modo-escuro:not(.rede-alto-contraste) {
     filter: none !important;
 }
 
+/* Preserva imagens, logos e ilustrações */
 body.rede-modo-escuro:not(.rede-alto-contraste)
 :where(img, video, svg, canvas) {
     filter: none !important;
 }
 
-/* Painéis que originalmente possuem fundo branco */
+/* Campos de login e cadastro */
 body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(main, section, article) {
-    color: #f1f5f9;
+:where(input, textarea, select):not(.rede-acess *) {
+    background: #283345 !important;
+    color: #ffffff !important;
+    border-color: #52617a !important;
 }
 
-/* Campos */
+/* Textos dos campos */
 body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(input, select, textarea):not(.rede-acess *) {
-    background: #293344 !important;
-    color: #fff !important;
-    border-color: #53647c !important;
+:where(input, textarea)::placeholder {
+    color: #c5cedb !important;
+}
+
+/* Legendas dos formulários */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:where(label):not(.rede-acess *) {
+    color: #e2e8f0 !important;
 }
 
 /* Painel de acessibilidade */
 body.rede-modo-escuro #rede-acess-panel {
-    background: #222b39 !important;
-    color: #fff !important;
-    border-color: #52617a !important;
+    background: #202938 !important;
+    color: #f1f5f9 !important;
+    border-color: #46566e !important;
 }
 
+/* Botões do painel */
 body.rede-modo-escuro #rede-acess-panel button {
-    background: #344154 !important;
-    color: #fff !important;
-    border-color: #52617a !important;
+    background: #303d50 !important;
+    color: #ffffff !important;
+    border: 1px solid #52617a !important;
 }
 
+body.rede-modo-escuro #rede-acess-panel button:hover {
+    background: #40516a !important;
+}
+
+/* Botão lateral original */
 body.rede-modo-escuro #rede-acess-toggle {
     background: #8d1027 !important;
-    color: #fff !important;
+    color: #ffffff !important;
+    border-color: #8d1027 !important;
+}
+
+/* Foco visível */
+body.rede-modo-escuro :focus-visible {
+    outline: 3px solid #ffcb19 !important;
+    outline-offset: 3px;
 }
