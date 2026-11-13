@@ -74,6 +74,7 @@ html.rede-zoom body {
 
 /* Escala os tamanhos originais calculados,
    inclusive fontes definidas em px ou rem. */
+
 html.rede-zoom body :where(
     h1,h2,h3,h4,h5,h6,
     p,span,a,li,label,
@@ -135,15 +136,68 @@ body.rede-alto-contraste :focus-visible {
     outline-offset: 3px;
 }
 
-/* MODO ESCURO */
+/* =====================================
+   MODO ESCURO CORRIGIDO
+   ===================================== */
 
 body.rede-modo-escuro:not(.rede-alto-contraste) {
-    filter: invert(1) hue-rotate(180deg);
+    background-color: #171b23 !important;
+    color: #f1f1f1;
+    color-scheme: dark;
+    filter: none !important;
 }
+
+/* Preserva imagens e vídeos */
 
 body.rede-modo-escuro:not(.rede-alto-contraste) img,
 body.rede-modo-escuro:not(.rede-alto-contraste) video {
-    filter: invert(1) hue-rotate(180deg);
+    filter: none !important;
+}
+
+/* Campos de formulário */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+input:not(.rede-acess input),
+body.rede-modo-escuro:not(.rede-alto-contraste)
+textarea:not(.rede-acess textarea),
+body.rede-modo-escuro:not(.rede-alto-contraste)
+select:not(.rede-acess select) {
+    background-color: #252b36 !important;
+    color: #ffffff !important;
+    border-color: #465064 !important;
+}
+
+/* Texto dos campos */
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+input::placeholder,
+body.rede-modo-escuro:not(.rede-alto-contraste)
+textarea::placeholder {
+    color: #aeb8c6 !important;
+}
+
+/* Painel de acessibilidade */
+
+body.rede-modo-escuro #rede-acess-panel {
+    background: #252b36 !important;
+    color: #ffffff !important;
+    border-color: #465064 !important;
+}
+
+/* Botões do painel */
+
+body.rede-modo-escuro #rede-acess-panel button {
+    background: #343c49 !important;
+    color: #ffffff !important;
+    border: 1px solid #566174 !important;
+}
+
+/* Botão principal vermelho */
+
+body.rede-modo-escuro #rede-acess-toggle {
+    background: #8d1027 !important;
+    color: #ffffff !important;
+    border-color: #8d1027 !important;
 }
 
 /* ESPAÇAMENTO */
@@ -170,4 +224,3 @@ body.rede-pausar *::after {
         left: 0;
     }
 }
-
