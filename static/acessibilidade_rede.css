@@ -1,99 +1,87 @@
 
-/* MODO ESCURO - REDE SOLIDARIZA */
+/* =====================================
+   MODO ESCURO - REDE SOLIDARIZA
+   ===================================== */
 
+/* FUNDO PRINCIPAL */
 body.rede-modo-escuro:not(.rede-alto-contraste) {
-    background-color: #121418 !important;
-    color: #f1f1f1 !important;
+    background-color: #141820 !important;
+    color: #e8edf5 !important;
     color-scheme: dark;
 }
 
-/* FUNDOS E CONTAINERS */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(
-    main, section, article, header, footer,
-    nav, aside, div, form, table, thead,
-    tbody, tr, td, th, ul, ol, li
-):not(.rede-acess):not(.rede-acess *) {
-    background-color: #1e2229 !important;
-    color: #f1f1f1 !important;
-    border-color: #414650 !important;
-}
-
-/* TEXTOS */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(
-    h1, h2, h3, h4, h5, h6,
-    p, span, label, strong, small, b
-):not(.rede-acess *) {
-    color: #f5f5f5 !important;
-}
-
-/* LINKS */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-a:not(.rede-acess a) {
-    color: #ff9eae !important;
-}
-
-/* BOTÕES */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-button:not(.rede-acess button) {
-    background-color: #8d1027 !important;
-    color: #ffffff !important;
-    border-color: #a72b42 !important;
-}
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-button:not(.rede-acess button):hover {
-    background-color: #ad2943 !important;
-}
-
-/* CAMPOS DE FORMULÁRIO */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(input, select, textarea):not(.rede-acess *) {
-    background-color: #292e36 !important;
-    color: #ffffff !important;
-    border: 1px solid #555d69 !important;
-}
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(input, textarea)::placeholder {
-    color: #b8bec7 !important;
-}
-
-/* IMAGENS, LOGOS E VÍDEOS */
-
-body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(img, video, canvas, svg) {
+/* Não inverter cores do site */
+body.rede-modo-escuro:not(.rede-alto-contraste) {
     filter: none !important;
 }
 
+/* Preservar imagens, logos e ilustrações */
+body.rede-modo-escuro img,
+body.rede-modo-escuro video,
+body.rede-modo-escuro svg,
+body.rede-modo-escuro canvas {
+    filter: none !important;
+}
+
+/* CONTAINERS PRINCIPAIS */
+/* Sem modificar todos os divs do site */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:where(main, article, section) {
+    color: #e8edf5;
+}
+
+/* TEXTOS */
+/* Mantém a hierarquia de cores original */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:where(h1, h2, h3, h4, h5, h6) {
+    color: #f1f5f9;
+}
+
+/* FORMULÁRIOS */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+:where(input, textarea, select) {
+    background-color: #252b36 !important;
+    color: #f8fafc !important;
+    border-color: #465064 !important;
+}
+
+/* PLACEHOLDER */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+input::placeholder,
+body.rede-modo-escuro:not(.rede-alto-contraste)
+textarea::placeholder {
+    color: #aab5c5 !important;
+}
+
 /* PAINEL DE ACESSIBILIDADE */
-
 body.rede-modo-escuro #rede-acess-panel {
-    background: #252932 !important;
-    color: #ffffff !important;
-    border-color: #484e59 !important;
+    background: #252b36 !important;
+    color: #f8fafc !important;
+    border: 1px solid #465064 !important;
 }
 
+/* BOTÕES DO PAINEL */
 body.rede-modo-escuro #rede-acess-panel button {
-    background: #343a45 !important;
+    background: #343c49 !important;
     color: #ffffff !important;
-    border: 1px solid #555d69 !important;
+    border: 1px solid #566174 !important;
 }
 
+/* HOVER */
 body.rede-modo-escuro #rede-acess-panel button:hover {
     background: #8d1027 !important;
     color: #ffffff !important;
 }
 
+/* BOTÃO LATERAL */
 body.rede-modo-escuro #rede-acess-toggle {
     background: #8d1027 !important;
     color: #ffffff !important;
     border-color: #8d1027 !important;
 }
 
+/* FOCO VISÍVEL */
+body.rede-modo-escuro :focus-visible {
+    outline: 3px solid #ffbe55 !important;
+    outline-offset: 3px;
+}
