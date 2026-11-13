@@ -1,68 +1,93 @@
 
 /* =========================================
-   MODO ESCURO - REDE SOLIDARIZA
+   CORREÇÃO DO QUADRANTE LOGIN E CADASTRO
    ========================================= */
 
-body.rede-modo-escuro:not(.rede-alto-contraste) {
-    background: #171b23 !important;
-    color: #f1f5f9 !important;
-    color-scheme: dark;
-    filter: none !important;
-}
-
-/* Preserva imagens, logos e ilustrações */
+/* Quadrante completo */
 body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(img, video, svg, canvas) {
-    filter: none !important;
-}
-
-/* Campos de login e cadastro */
-body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(input, textarea, select):not(.rede-acess *) {
-    background: #283345 !important;
-    color: #ffffff !important;
-    border-color: #52617a !important;
-}
-
-/* Textos dos campos */
-body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(input, textarea)::placeholder {
-    color: #c5cedb !important;
-}
-
-/* Legendas dos formulários */
-body.rede-modo-escuro:not(.rede-alto-contraste)
-:where(label):not(.rede-acess *) {
-    color: #e2e8f0 !important;
-}
-
-/* Painel de acessibilidade */
-body.rede-modo-escuro #rede-acess-panel {
+.auth-shell {
     background: #202938 !important;
-    color: #f1f5f9 !important;
     border-color: #46566e !important;
 }
 
-/* Botões do painel */
-body.rede-modo-escuro #rede-acess-panel button {
-    background: #303d50 !important;
+/* Parte do formulário */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.auth-form {
+    background: #202938 !important;
+    color: #f1f5f9 !important;
+}
+
+/* Títulos e textos */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.auth-form :is(h1, h2, h3, p, label, strong, small) {
+    color: #f1f5f9 !important;
+}
+
+/* Abas de login e cadastro */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.tabs {
+    border-color: #46566e !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.tabs a {
+    color: #c5cedb !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.tabs a.selected {
+    color: #ffcf17 !important;
+    border-bottom-color: #ffcf17 !important;
+}
+
+/* Divisórias */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.form-heading {
+    border-color: #46566e !important;
+}
+
+/* Caixa de segurança */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.secure {
+    background: #29374b !important;
+    border-color: #46566e !important;
+    color: #f1f5f9 !important;
+}
+
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.secure small {
+    color: #c5cedb !important;
+}
+
+/* Botão para visualizar senha */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.password button {
+    color: #f1f5f9 !important;
+}
+
+/* Preservar o botão amarelo */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.auth-form .button.yellow {
+    background: #ffcf17 !important;
+    color: #252e35 !important;
+    border-color: #f1bf08 !important;
+}
+
+/* Preservar o lado azul */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.brand-panel {
+    background: var(--brand) !important;
     color: #ffffff !important;
-    border: 1px solid #52617a !important;
 }
 
-body.rede-modo-escuro #rede-acess-panel button:hover {
-    background: #40516a !important;
+/* Preservar os cartões brancos do lado azul */
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.brand-panel .values {
+    background: #ffffff !important;
+    color: var(--brand) !important;
 }
 
-/* Botão lateral original */
-body.rede-modo-escuro #rede-acess-toggle {
-    background: #8d1027 !important;
-    color: #ffffff !important;
-    border-color: #8d1027 !important;
-}
-
-/* Foco visível */
-body.rede-modo-escuro :focus-visible {
-    outline: 3px solid #ffcb19 !important;
-    outline-offset: 3px;
+body.rede-modo-escuro:not(.rede-alto-contraste)
+.brand-panel .values strong {
+    color: #203046 !important;
 }
